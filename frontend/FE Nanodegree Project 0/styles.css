@@ -74,14 +74,14 @@ h1 {
 .hero {
   padding: 1em;
   max-width: 100%;
-  background-color: #294860;
+  background-color: teal;
   color: white;
 }
 
 .my-picture {
   display: block;
   margin: 0 auto 10px;
-  width: 100%;
+  max-width: 100%;
   border: 2px solid white;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
