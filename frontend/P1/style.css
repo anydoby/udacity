@@ -40,9 +40,10 @@ body {
 	border-radius: 3px;
 }
 
-.teaser>div {
+.teaser-image {
 	/* TODO - remove this div from the view completely when in mobile mode */
-	
+	height: 290px;
+	overflow: hidden;
 }
 
 .teaser-image>img {
