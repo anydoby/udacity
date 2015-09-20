@@ -1,8 +1,7 @@
 @CHARSET "utf-8";
 
 * {
-	/*outline: black dotted 1px !important;*/
-	
+	outline: black dotted 1px !important;
 }
 
 body {
@@ -20,7 +19,7 @@ body {
 	display: flex;
 }
 
-.title {
+.spring-to-edges {
 	/* this way all free space fills between the logo and the designer 
 		name div making them aligned to the left and right respectively */
 	justify-content: space-between;
@@ -28,6 +27,8 @@ body {
 
 .author {
 	color: #747704;
+	text-transform: uppercase;
+	text-align: right;
 }
 
 .teaser-separator {
@@ -39,17 +40,20 @@ body {
 	border-radius: 3px;
 }
 
-.teaser > div {
+.teaser>div {
 	/* TODO - remove this div from the view completely when in mobile mode */
 	
 }
 
-.teaser-image > img {
+.teaser-image>img {
 	width: 680px;
 }
 
 h2 {
-	color: #BCBBBB
+	color: #BCBBBB;
+	text-indent: .5em;
+	margin: 20 0 0 0;
+	text-transform: capitalize;
 }
 
 .works {
@@ -57,27 +61,40 @@ h2 {
 }
 
 .works ul {
+	margin: 0;
 	padding: 0;
 	width: 100%;
-	display: table;	
+	display: flex;
 }
 
 .works li {
 	list-style-type: none;
-	display: table-cell;	
-}
-
-.works img {
-	height: 150px;
 }
 
 .works a {
 	color: #747704;
 	text-align: center;
+	margin: 0;
+	text-decoration: none;
+}
+
+.works p {
+	text-transform: uppercase;
+}
+
+.crop {
+	width: 200px;
+	height: 150px;
+	overflow: hidden;
+}
+
+.crop img {
+	
 }
 
 a::after {
 	content: attr(href);
 	text-align: center;
+	margin-right: 0px;
 	font-size: .7em;
 }
