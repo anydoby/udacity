@@ -1,0 +1,83 @@
+@CHARSET "utf-8";
+
+* {
+	/*outline: black dotted 1px !important;*/
+	
+}
+
+body {
+	background-color: white;
+}
+
+.main-container {
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	width: 680px;
+}
+
+.row {
+	display: flex;
+}
+
+.title {
+	/* this way all free space fills between the logo and the designer 
+		name div making them aligned to the left and right respectively */
+	justify-content: space-between;
+}
+
+.author {
+	color: #747704;
+}
+
+.teaser-separator {
+	height: 3px;
+	width: 100%;
+	background-color: #BCBBBB;
+	border-color: #BCBBBB;
+	border-style: solid;
+	border-radius: 3px;
+}
+
+.teaser > div {
+	/* TODO - remove this div from the view completely when in mobile mode */
+	
+}
+
+.teaser-image > img {
+	width: 680px;
+}
+
+h2 {
+	color: #BCBBBB
+}
+
+.works {
+	color: #747704
+}
+
+.works ul {
+	padding: 0;
+	width: 100%;
+	display: table;	
+}
+
+.works li {
+	list-style-type: none;
+	display: table-cell;	
+}
+
+.works img {
+	height: 150px;
+}
+
+.works a {
+	color: #747704;
+	text-align: center;
+}
+
+a::after {
+	content: attr(href);
+	text-align: center;
+	font-size: .7em;
+}
