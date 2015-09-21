@@ -11,9 +11,19 @@ body {
 }
 
 .ulogo {
+	border: 5px solid orange;
+    border-radius: 50%;	
+}
+
+.ulogo:hover {
+	background-color: #FDEFD5;
+}
+
+.ulogo img {
 	display: block;
-	width: 100px;
-	height: 100px;
+	width: 60px;
+	height: 60px;
+	padding: 20px;
 }
 
 .main-container {
