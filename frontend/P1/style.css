@@ -30,7 +30,7 @@ body {
 	margin: auto;
 	display: flex;
 	flex-direction: column;
-	width: 680px;
+	max-width: 680px;
 }
 
 .row {
@@ -49,7 +49,7 @@ body {
 	text-align: right;
 }
 
-.author h1 {
+h1 {
 	font-family: 'Work Sans', sans-serif;
 	font-weight: 100;
 	font-size: 3em; 
@@ -117,6 +117,16 @@ h2 {
 	text-decoration: none;
 }
 
+.works a::after {
+	content: attr(href);
+	font-family: 'Work Sans', sans-serif;
+	font-size: .75em;
+}
+
+.works img {
+	height: 150px;
+}
+
 .works p {
     font-family: 'Raleway', sans-serif;
     font-weight: 500;
@@ -125,12 +135,40 @@ h2 {
 	margin: 3px 0px 3px 0px;
 }
 
-.works img {
-	height: 150px;
+@media only screen and (max-width: 700px) {
+	.teaser-image {
+		display: none;
+	}
 }
 
-.works a::after {
-	content: attr(href);
-	font-family: 'Work Sans', sans-serif;
-	font-size: .75em;
+@media only screen and (max-width: 658px) {
+	.works ul {
+		flex-direction: column;
+	}
+	.works img {
+		height: 250px;		
+	}
+}
+
+@media only screen and (max-width: 435px) {
+	.ulogo {
+		border: none;
+		border-radius: 0;
+	}
+	.ulogo:hover {
+		background-color: inherit;
+	}
+	.ulogo img {
+		padding: 0;
+	}
+	.works img {
+		height: auto;
+		width: 100%;		
+	}	
+}
+
+@media only screen and (max-width: 380px) {
+	h1 {
+		font-size: 2em;
+	}
 }
