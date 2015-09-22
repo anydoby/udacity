@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>About Me</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-  <div class="main-container">
-      <div class="row spring-to-edges header">
-        <a class="ulogo" href="http://udacity.com" title="Go to Udacity"><img src="img/udacity-logo.png" alt="Udacity Logo" /></a>
-        <div class="author">
-          <h1>Jane Doette</h1>
-          <p>Front end ninja</p>
-        </div>
+<head>
+<title>About me</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-xs-2">
+        <img src="img/udacity-logo.png" class="img-responsive">
       </div>
-      <hr class="separator">
-      <div class="teaser-image">
-        <img alt="html-samples-image" src="img/html.png" />
-      </div>
-      <div class="works">
-        <h2>Featured work</h2>
-        <ul class="row spring-to-edges">
-          <li>
-            <a href="https://github.com/udacity/Appify/" title="Appify">
-              <img alt="Appify" src="img/appify.png" />
-              <h3>Appify</h3>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/udacity/Sunflower/" title="Sunflower">
-              <img alt="Sunflower" src="img/sunflower.png" />
-              <h3>Sunflower</h3>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/udacity/Bokeh/" title="Bokeh">
-              <img alt="Bokeh" src="img/bokeh.png" />
-              <h3>Bokeh</h3>
-            </a>
-          </li>
-        </ul>
+      <div class="col-md-6 col-xs-10 text-right">
+        <h1>Jane Doette</h1>
+        <h3>Front-end Ninja</h3>
       </div>
     </div>
-  </body>
+    <div>
+      <img src="img/html.png" >
+    </div>
+    <div>
+      <h2>Featured Work</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <img src="img/appify.png" class="img-responsive">
+        <h3>Appify</h3>
+        <p>
+          <a href="http://github.com">Link to project</a>
+        </p>
+      </div>
+      <div class="col-md-6">
+        <img src="img/sunflower.png" class="img-responsive">
+        <h3>Appify</h3>
+        <p>
+          <a href="http://github.com">Link to project</a>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <img src="img/bokeh.png" class="img-responsive">
+        <h3>Appify</h3>
+        <p>
+          <a href="http://github.com">Link to project</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
