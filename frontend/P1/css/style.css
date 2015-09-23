@@ -1,6 +1,5 @@
 @CHARSET "utf-8";
-@import url(https://fonts.googleapis.com/css?family=Work+Sans:100);
-@import url(https://fonts.googleapis.com/css?family=Raleway:500);
+@import url(https://fonts.googleapis.com/css?family=Work+Sans:100,400);
 
 * {
 /*	outline: black dotted 1px !important; */
@@ -8,168 +7,49 @@
 
 body {
 	background-color: white;
+	font-family: 'Work Sans', sans-serif;
 }
 
 .ulogo {
-	border: 5px solid orange;
-    border-radius: 50%;	
-}
-
-.ulogo:hover {
-	background-color: #FDEFD5;
-}
-
-.ulogo img {
-	display: block;
-	width: 60px;
-	height: 60px;
-	padding: 20px;
-}
-
-.main-container {
-	margin: auto;
-	display: flex;
-	flex-direction: column;
-	max-width: 680px;
-}
-
-.row {
-	display: flex;
-}
-
-.spring-to-edges {
-	/* this way all free space fills between the logo and the designer 
-		name div making them aligned to the left and right respectively */
-	justify-content: space-between;
-}
-
-.author {
-	color: #666756;
-	text-transform: uppercase;
-	text-align: right;
+	margin-top: 20px;
 }
 
 h1 {
-	font-family: 'Work Sans', sans-serif;
 	font-weight: 100;
-	font-size: 3em; 
+	font-size: 4.5em; 
 	margin: 5px 0px 10px 0px;
 }
 
 h2 {
-	font-family: 'Raleway', sans-serif;
-	font-weight: 500;
+	font-weight: 400;
 	color: #BCBBBB;
-	text-indent: .5em;
-	margin: 20px 0px 5px 0px;
 	text-transform: capitalize;
 }
 
 h3 {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1.75em;
-	text-transform: uppercase;
 	margin: 3px 0px 3px 0px;
 }
 
-
-.author p {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 500;
+h4 {
     font-size: 1em;
-    margin: 0;
+    font-weight: 400;
 }
 
-.separator {
-	height: 3px;
-	width: 100%;
-	background-color: #BCBBBB;
-	border-color: #BCBBBB;
-	border-style: solid;
-	border-radius: 3px;
+hr {
+	border-width: 3px;
 }
 
-.teaser-image {
-	/* TODO - remove this div from the view completely when in mobile mode */
-	height: 290px;
-	overflow: hidden;
-}
-
-.teaser-image>img {
-	width: 680px;
-}
-
-.works {
-	color: #747704
-}
-
-.works ul {
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	display: flex;
-}
-
-.works li {
-	list-style-type: none;
-	text-align: center;
-}
-
-.works li:hover {
-	background-color: #D2D4F0;
-}
-
-.works a {
-	color: #666756;
-	margin: 0;
-	text-decoration: none;
-}
-
-.works a::after {
-	content: attr(href);
-	font-family: 'Work Sans', sans-serif;
-	font-size: .75em;
-}
-
-.works img {
-	height: 150px;
+a {
+	color:#BCBBBB; 
 }
 
 @media only screen and (max-width: 700px) {
-	.teaser-image {
-		display: none;
-	}
-}
-
-@media only screen and (max-width: 658px) {
-	.works ul {
-		flex-direction: column;
-	}
-	.works img {
-		height: 250px;		
-	}
-}
-
-@media only screen and (max-width: 435px) {
-	.ulogo {
-		border: none;
-		border-radius: 0;
-	}
-	.ulogo:hover {
-		background-color: inherit;
-	}
-	.ulogo img {
-		padding: 0;
-	}
-	.works img {
-		height: auto;
-		width: 100%;		
-	}	
-}
-
-@media only screen and (max-width: 380px) {
-	h1 {
-		font-size: 2em;
-	}
-}
+    .teaser-image {
+        display: none;
+    }
+    h1 {
+        font-size: 3em;
+    }
+} 
