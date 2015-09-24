@@ -23,7 +23,7 @@ h1 {
 
 h2 {
   font-weight: 400;
-  color: #BCBBBB;
+  color: #bcbbbb;
   text-transform: capitalize;
 }
 
@@ -43,7 +43,7 @@ hr {
 }
 
 a {
-  color: #BCBBBB;
+  color: #bcbbbb;
 }
 
 @media only screen and (max-width: 700px) {
