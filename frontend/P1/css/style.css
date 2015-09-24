@@ -11,6 +11,12 @@ body {
   margin-top: 20px;
 }
 
+.author-motto {
+  font-weight: 400;
+  font-size: 1.75em;
+  margin: 3px 0 3px 0;
+}
+
 h1 {
   font-weight: 100;
   font-size: 4.5em;
@@ -23,13 +29,7 @@ h2 {
   text-transform: capitalize;
 }
 
-h3 {
-  font-weight: 400;
-  font-size: 1.75em;
-  margin: 3px 0 3px 0;
-}
-
-h4 {
+.link-source {
   font-size: 1em;
   font-weight: 400;
 }
