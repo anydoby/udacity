@@ -1,55 +1,57 @@
 @CHARSET "utf-8";
+
 @import url(https://fonts.googleapis.com/css?family=Work+Sans:100,400);
 
 * {
-/*	outline: black dotted 1px !important; */
+/*  outline: black dotted 1px !important; */;
 }
 
 body {
-	background-color: white;
-	font-family: 'Work Sans', sans-serif;
+  background-color: white;
+  font-family: 'Work Sans', sans-serif;
 }
 
 .ulogo {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 h1 {
-	font-weight: 100;
-	font-size: 4.5em; 
-	margin: 5px 0px 10px 0px;
+  font-weight: 100;
+  font-size: 4.5em;
+  margin: 5px 0px 10px 0px;
 }
 
 h2 {
-	font-weight: 400;
-	color: #BCBBBB;
-	text-transform: capitalize;
+  font-weight: 400;
+  color: #BCBBBB;
+  text-transform: capitalize;
 }
 
 h3 {
-    font-weight: 400;
-    font-size: 1.75em;
-	margin: 3px 0px 3px 0px;
+  font-weight: 400;
+  font-size: 1.75em;
+  margin: 3px 0px 3px 0px;
 }
 
 h4 {
-    font-size: 1em;
-    font-weight: 400;
+  font-size: 1em;
+  font-weight: 400;
 }
 
 hr {
-	border-width: 3px;
+  border-width: 3px;
 }
 
 a {
-	color:#BCBBBB; 
+  color: #BCBBBB;
 }
 
 @media only screen and (max-width: 700px) {
-    .teaser-image {
-        display: none;
-    }
-    h1 {
-        font-size: 3em;
-    }
+  .teaser-image {
+    display: none;
+  }
+
+  h1 {
+    font-size: 3em;
+  };
 } 
