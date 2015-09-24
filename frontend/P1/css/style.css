@@ -2,10 +2,6 @@
 
 @import url(https://fonts.googleapis.com/css?family=Work+Sans:100,400);
 
-* {
-/*  outline: black dotted 1px !important; */;
-}
-
 body {
   background-color: white;
   font-family: 'Work Sans', sans-serif;
