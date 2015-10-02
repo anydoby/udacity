@@ -8,16 +8,34 @@ var bio = {
         "github" : "anydoby",
         "location" : "Drachten"
     },
-    "welcomeMessage" : "Welcome and have a look at my resume",
+    "welcomeMessage" : "Welcome and have a look at my resume.",
     "skills" : [ "java of all sorts", 'solving simple problems',
-            'solving complex problems', 'not solving unsolvable problems',
-            "saving the universe" ],
-    "biopic" : "images/me.jpg",
-    "location" : 'Drachten, NL',
-    "display" : function(panel) {
-        panel.append(HTMLheaderName.replace('%data%', this.name));
-        panel.append(HTMLheaderRole.replace('%data%', this.role));
+            'solving complex problems', 'web front end development'],
+    "biopic" : "http://anydoby.com/udacity/frontend/P0/images/my_picture.jpg",
+    "location" : 'Drachten, The Netherlands',
+    "display" : function() {
+        var contacts = this.contacts;
+        var panel = $('#header');
+        
+        function addContacts(panel){
+            panel.append(formatContact("mobile"));
+            panel.append(formatContact("email"));
+            panel.append(formatContact("github"));
+            panel.append(formatContact("location"));
+        }
+        function formatContact(type) {
+            return HTMLcontactGeneric.replace("%contact%", type).replace("%data%", contacts[type]);
+        }
+        
+        panel.prepend(HTMLwelcomeMsg.replace('%data%', this.welcomeMessage));
+        panel.prepend(HTMLbioPic.replace('%data%', this.biopic));
+        panel.prepend(HTMLheaderRole.replace('%data%', this.role));
+        panel.prepend(HTMLheaderName.replace('%data%', this.name));
+        addContacts($("#topContacts"));
         panel.append(HTMLskillsStart);
+        
+        addContacts($("#footerContacts"));        
+        
         if (this.skills) {
             this.skills.forEach(function(skill) {
                 $('#skills').append(HTMLskills.replace('%data%', skill));
@@ -29,7 +47,7 @@ var bio = {
 var education = {
     "schools" : [ {
         "name" : "University of Kyiv-Mohyla Academy",
-        "location" : "Kiev",
+        "location" : "Kiev, Ukraine",
         "degree" : "Bachelor",
         "majors" : [ 'Physics' ],
         "dates" : 2005,
@@ -62,8 +80,32 @@ var education = {
                 "date" : 2005,
                 "url" : 'http://java.sun.com'
             }, ],
-    "display" : function(panel) {
-
+    "display" : function() {
+        var panel = $('#education');
+        if (this.schools) {
+            this.schools.forEach(function(school) {
+                panel.append(HTMLschoolStart);
+                var entry = $('.education-entry:last');
+                entry.append(HTMLschoolName.replace("%data%", school.name).replace("%url%", school.url));
+                entry.append(HTMLschoolDegree.replace("%data%", school.degree));
+                entry.append(HTMLschoolDates.replace("%data%", school.dates));
+                entry.append(HTMLschoolLocation.replace("%data%", school.location));
+                school.majors.forEach(function(m) {                    
+                    entry.append(HTMLschoolMajor.replace("%data%", m));
+                });
+            });
+        }      
+        if (this.onlineCourses) {
+            panel.append(HTMLonlineClasses);
+            this.onlineCourses.forEach(function(course) {
+                panel.append(HTMLschoolStart);
+                var entry = $('.education-entry:last');
+                entry.append(HTMLonlineTitle.replace("%data%", course.title));
+                entry.append(HTMLonlineSchool.replace("%data%", course.school));
+                entry.append(HTMLonlineDates.replace("%data%", course.date));
+                entry.append(HTMLonlineURL.replace("%data%", course.url));                
+            });
+        }
     }
 };
 
@@ -72,86 +114,83 @@ var work = {
         "employer" : "Mirasoft",
         "dates" : '2004-07-01 - 2005-10-01',
         "title" : "Java Developer",
-        "location" : "Kiev",
-        "description" : lorem
+        "location" : "Kiev, Ukraine",
+        "description" : "My first job. Started as a tester finished as a junior java developer. A lot of UI testing at the beginning. Took part in a web service aggregation project."
     }, {
         "employer" : "Ciklum",
         "dates" : '2005-10-01 - 2006-12-01',
         "title" : "Senior Java Developer",
-        "location" : "Kiev",
-        "description" : lorem
+        "location" : "Kiev, Ukraine",
+        "description" : "Building a mobile media platform."
     }, {
         "employer" : "Luxoft",
         "dates" : '2007-02-01 - 2007-12-01',
         "title" : "Senior Java Developer",
-        "location" : "Kiev",
-        "description" : lorem
+        "location" : "Kiev, Ukraine",
+        "description" : "Building some trade processing/monitoring web application"
     }, {
         "employer" : "Mirasoft",
         "dates" : '2007-12-01 - 2009-04-01',
         "title" : "Java Architect",
-        "location" : "Kiev",
-        "description" : lorem
+        "location" : "Kiev, Ukraine",
+        "description" : "Took part in redesign and implementation of a healthcare patient tracking application for a big-big company."
     }, {
         "employer" : "Asset Control",
         "dates" : '2009-04-01 -  now',
         "title" : "Tech Lead",
-        "location" : "Heerenveen",
-        "description" : lorem
+        "location" : "Heerenveen, The Netherlands",
+        "description" : "Building in-house asset management system. Designing and implementing the distribution/monitoring layer."
     }, ],
-    "display" : function(panel) {
+    "display" : function() {
+        var panel = $('#workExperience');
         function displayWork(job) {
             panel.append(HTMLworkStart);
-            $('.work-entry:last').append(
-                    HTMLworkEmployer.replace('%data%', job.employer));
-            $('.work-entry:last').append(
-                    HTMLworkTitle.replace('%data%', job.title));
-            $('.work-entry:last').append(
-                    HTMLworkDates.replace('%data%', job.dates));
-            $('.work-entry:last').append(
-                    HTMLworkLocation.replace('%data%', job.location));
-            $('.work-entry:last').append(
-                    HTMLworkDescription.replace('%data%', job.description));
+            var entry = $('.work-entry:last');
+            entry.append(HTMLworkEmployer.replace('%data%', job.employer));
+            entry.append(HTMLworkTitle.replace('%data%', job.title));
+            entry.append(HTMLworkDates.replace('%data%', job.dates));
+            entry.append(HTMLworkLocation.replace('%data%', job.location));
+            entry.append(HTMLworkDescription.replace('%data%', job.description));
         }
         if (this.jobs) {
+            this.jobs.reverse();
             this.jobs.forEach(displayWork);
         }
     }
 };
 
 var projects = {
-    "projects" : [ {
-        "title" : 'Sample Project 1',
-        "dates" : 2014,
-        "description" : lorem,
-        "images" : [ 'https://s3.amazonaws.com/content.udacity-data.com/site-svgs/upsell_icon.svg' ]
-    } ]
-};
-
-projects.display = function() {
-    if (this.projects) {
-        this.projects.forEach(function(project) {
-            $('#projects').append(HTMLprojectStart);
-            $('.project-entry:last').append(
-                    HTMLprojectTitle.replace('%data%', project.title));
-            $('.project-entry:last').append(
-                    HTMLprojectDates.replace('%data%', project.dates));
-            $('.project-entry:last').append(
-                    HTMLprojectDescription.replace('%data%',
-                            project.description));
-            project.images.forEach(function(img) {
-                $('.project-entry:last').append(
-                        HTMLprojectImage.replace('%data%', img));
+    "projects" : [ 
+    {
+        "title" : "Static personal page",
+        "dates" : "2015",
+        "description" : "A simple static page with personal information.",
+        "images" : [ 'http://anydoby.com/udacity/frontend/P0/images/my_picture.jpg' ]
+    },
+    {
+        "title" : "Bootstrap demo",
+        "dates" : "2015",
+        "description" : "A more advanced web page featuring usage of the Bootstrap framework to layout elements.",
+        "images" : [ 'http://anydoby.com/udacity/frontend/P1/img/appify.png',
+                     'http://anydoby.com/udacity/frontend/P1/img/sunflower.png',
+                     'http://anydoby.com/udacity/frontend/P1/img/bokeh.png' ]
+    },
+    ],
+    "display" : function() {
+        if (this.projects) {
+            var panel = $('#projects');
+            this.projects.forEach(function(project) {
+                panel.append(HTMLprojectStart);
+                $('.project-entry:last').append(HTMLprojectTitle.replace('%data%', project.title));
+                $('.project-entry:last').append(HTMLprojectDates.replace('%data%', project.dates));
+                $('.project-entry:last').append(HTMLprojectDescription.replace('%data%',project.description));
+                project.images.forEach(function(img) {
+                    $('.project-entry:last').append(HTMLprojectImage.replace('%data%', img));
+                });
             });
-        });
-    }
+        }
+    } 
 };
-
-function inName() {
-    var n = bio.name.split(" ");
-    return n[0].slice(0, 1).toUpperCase() + n[0].slice(1) + " "
-            + n[1].toUpperCase();
-}
 
 function buildResume() {
     if (document.getElementsByClassName('flex-item').length === 0) {
@@ -176,10 +215,10 @@ function buildResume() {
         document.getElementById('mapDiv').style['background-color'].display = 'none';
     }
 
-    bio.display($('#header'));
-    work.display($('#workExperience'));
+    bio.display();
+    work.display();
     projects.display();
-    education.display($('#education'));
+    education.display();
 
     $('#mapDiv').append(googleMap);
 }
