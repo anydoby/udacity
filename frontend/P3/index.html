@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>The game</title>
+</head>
+<body>
+  <div style="display:flex">
+    <canvas id="c" width="500" height="500"></canvas>
+    <div style="display:flex;flex-direction: column;padding:10px">
+      <p>Load another image</p>
+      <input type="file" onchange="loadImage(event)"/>
+      <p>Please enter meme text</p>
+      <input type="text" id="memeText" oninput="drawText()" />
+      <button onclick="saveResults()">Save the results</button>
+    </div>
+  </div>
+  <script type="text/javascript">
+      var image;
+      var canvas = document.querySelector("#c");
+      var g = canvas.getContext("2d");
+      var img = new Image();
+      img.src = "img/fry.jpg";
+      img.onload = function(){        
+        image = this;
+        drawText();
+      }
+      
+      function saveResults() {
+        window.open(canvas.toDataURL());
+      }
+      
+      function loadImage(evt) {
+        var file = evt.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function(fileObject){
+          var data = fileObject.target.result;          
+          var img = new Image();
+          img.onload = function(){
+            image = this;
+            drawText();
+          }
+          img.src = data;          
+        };
+        reader.readAsDataURL(file);
+      }
+      
+      function drawText(){
+        g.clearRect(0,0,canvas.width, canvas.height);
+        g.drawImage(image, 0, 0, canvas.width, canvas.height);
+        var text = document.querySelector("#memeText").value;
+        g.save();
+        g.fillStyle = "white";
+        g.strokeStyle = "black";
+        g.lineWidth = 3;
+        g.font = "36pt Impact";
+        g.textAlign = "center";
+        g.fillText(text, canvas.width / 2, 50);
+        g.strokeText(text, canvas.width / 2, 50);
+        g.restore();
+      }
+    </script>
+</body>
+</html>
