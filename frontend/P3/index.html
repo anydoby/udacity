@@ -12,6 +12,8 @@
       <input type="file" onchange="loadImage(event)"/>
       <p>Please enter meme text</p>
       <input type="text" id="memeText" oninput="drawText()" />
+      <button onclick="makeItGreen()">Make it green</button>
+      <button onclick="gray()">Make it gray</button>
       <button onclick="saveResults()">Save the results</button>
     </div>
   </div>
@@ -24,6 +26,31 @@
       img.onload = function(){        
         image = this;
         drawText();
+      }
+      
+      function gray() {
+        var buffer = g.getImageData(0,0,canvas.width,canvas.height);
+        var data = buffer.data;
+        for (var i = 0; i < data.length; i+=4){
+          var average = (data[i] + data[i+1] + data[i+2]) / 3;
+          data[i+0] = average;
+          data[i+1] = average;
+          data[i+2] = average;
+          data[i+3] = 255;
+        }
+        g.putImageData(buffer, 0,0);        
+      }
+      
+      function makeItGreen(){
+        var buffer = g.getImageData(0,0,canvas.width,canvas.height);
+        var data = buffer.data;
+        for (var i = 0; i < data.length; i+=40){
+          data[i] = 0;
+          data[i+1] = 255;
+          data[i+2] = 0;
+          data[i+3] = 255;
+        }
+        g.putImageData(buffer, 0,0);
       }
       
       function saveResults() {
