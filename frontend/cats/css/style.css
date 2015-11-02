@@ -1,0 +1,38 @@
+* {
+  outline: 1px red solid;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#cats-list {
+  flex-basis: 20%;
+}
+
+#cats-place {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+}
+
+#cat-counter {
+    justify-content: space-around;
+    display: flex;
+}
+
+#counter {
+  font-size: 2em;
+  font-family: monospace;
+  padding: 0 0.3em;
+  border: blueviolet 2px solid;
+  border-radius: 1em;
+}
