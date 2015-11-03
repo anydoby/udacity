@@ -7,13 +7,27 @@
 <script type="text/javascript" src="js/cats.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body onload="populateCatsList()">
+<body onload="runApp()">
     <div class="container">
         <div id="cats-list"></div>
         <div id="cats-place">
-            <div id="cat-face">An image here</div>
+            <div id="cat-face"><img id="cat-image" width="300" height="300"></div>
             <div id="cat-counter">
                 <div id="counter">0</div>
+            </div>
+            <button id="toggleAdmin" type="button" value="Admin"></button>
+            <div id="admin">
+              <div class="container">
+                <div class="admin-fields">
+                  <input id="admin-name" type="text"><br>
+                  <input id="admin-url" type="text"><br>
+                  <input id="admin-counter" type="text"><br>
+                </div>
+                <div>
+                  <button id="admin-save"></button>
+                  <button id="admin-cancel"></button>
+                </div>
+              </div>
             </div>
         </div>
     </div>
