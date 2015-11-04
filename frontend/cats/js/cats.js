@@ -55,7 +55,7 @@ var runApp = (function() {
 
   var views = [ {
     render : function() {
-      var catsList = document.getElementById('cats-list');
+      var catsList = $('#cats-list');
       catsList.innerHTML = '';
       controller.getCats().forEach(function(cat) {
         var c = document.createElement('div');
@@ -66,10 +66,11 @@ var runApp = (function() {
     }
   }, {
     render : function() {
-      var img = document.getElementById("cat-image");
-      var counter = document.getElementById("counter");
+      var img = $("#cat-image");
+      var counter = $("#counter");
       if (controller.getSelectedCat()) {
         img.src = controller.getSelectedCat().src;
+        img.title = controller.getSelectedCat().title;
         img.onclick = controller.catClicked.bind(controller.getSelectedCat());
         counter.innerHTML = controller.getSelectedCat().getCount();
       } else {

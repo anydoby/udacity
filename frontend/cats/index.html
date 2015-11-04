@@ -4,28 +4,30 @@
 <meta charset="utf-8">
 <title>Cats Clicker</title>
 <link href="css/style.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="js/cats.js"></script>
+<script type="text/javascript" src="js/admin.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body onload="runApp()">
-    <div class="container">
-        <div id="cats-list"></div>
-        <div id="cats-place">
+<body onload="runApp();admin();">
+    <div class="container row">
+        <div id="cats-list" class="column"></div>
+        <div id="cats-place" class="column">
             <div id="cat-face"><img id="cat-image" width="300" height="300"></div>
             <div id="cat-counter">
                 <div id="counter">0</div>
             </div>
-            <button id="toggleAdmin" type="button" value="Admin"></button>
+            <button id="toggleAdmin" type="button">Admin</button>
             <div id="admin">
-              <div class="container">
-                <div class="admin-fields">
+              <div class="container column">
+                <div id="admin-fields" class="column">
                   <input id="admin-name" type="text"><br>
                   <input id="admin-url" type="text"><br>
                   <input id="admin-counter" type="text"><br>
                 </div>
-                <div>
-                  <button id="admin-save"></button>
-                  <button id="admin-cancel"></button>
+                <div class="row">
+                  <button id="admin-save">Save</button>
+                  <button id="admin-cancel">Cancel</button>
                 </div>
               </div>
             </div>

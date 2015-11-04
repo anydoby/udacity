@@ -9,7 +9,6 @@ body {
 
 .container {
   display: flex;
-  flex-direction: row;
   width: 100%;
   margin: 0 auto;
 }
@@ -18,8 +17,15 @@ body {
   flex-basis: 20%;
 }
 
-#cats-place {
+.column {  
   flex-direction: column;
+}
+
+.row {  
+  flex-direction: row;
+}
+
+#cats-place {
   display: flex;
   width: 100%;
 }
@@ -35,4 +41,8 @@ body {
   padding: 0 0.3em;
   border: blueviolet 2px solid;
   border-radius: 1em;
+}
+
+.invisible {
+  display: none;
 }
