@@ -1,40 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="cats-premium">
 <head>
 <meta charset="utf-8">
 <title>Cats Clicker</title>
 <link href="css/style.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery.populate.js"></script>
 <script type="text/javascript" src="js/cats.js"></script>
-<script type="text/javascript" src="js/admin.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body onload="runApp();admin();">
-    <div class="container row">
-        <div id="cats-list" class="column"></div>
-        <div id="cats-place" class="column">
-            <div id="cat-face"><img id="cat-image" width="300" height="300"></div>
-            <div id="cat-counter">
-                <div id="counter">0</div>
-            </div>
-            <button id="toggleAdmin" type="button">Admin</button>
-            <div id="admin">
-              <div class="container column">
-                <form id="admin-form">
-                  <div id="admin-fields" class="column">
-                    <input name="title" type="text"><br>
-                    <input name="src" type="text"><br>
-                    <input name="count" type="text"><br>
-                  </div>
-                </form>
-                <div class="row">
-                  <button id="admin-save">Save</button>
-                  <button id="admin-cancel">Cancel</button>
-                </div>
-              </div>
-            </div>
-        </div>
+<body>
+  <div class="container row" ng-controller="CatController as app">
+    <div id="cats-list" class="column">
+      <div ng-repeat="cat in app.cats" ng-click="app.selectCat(cat)">{{cat.title}}</div>
     </div>
+    <div id="cats-place" class="column">
+      <div id="cat-face">
+        <img id="cat-image" width="300" height="300" src="{{app.selectedCat.src}}" title="{{app.selectedCat.title}}" ng-click="app.catClicked()">
+      </div>
+      <div id="cat-counter">
+        <div id="counter">{{app.selectedCat.count}}</div>
+      </div>
+      <div ng-controller="CatAdmin as admin">
+        <button id="toggleAdmin" type="button" ng-click="admin.visible = !admin.visible">Admin</button>
+        <div id="admin" ng-show="admin.visible">
+          <div class="container column">
+            <form id="admin-form">
+              <div id="admin-fields" class="column">
+                <input ng-model="admin.cat.title" type="text"><br> 
+                <input ng-model="admin.cat.src" type="text"><br> 
+                <input ng-model="admin.cat.count" type="text"><br>
+              </div>
+            </form>
+            <div class="row">
+              <button id="admin-save" ng-click="admin.save()">Save</button>
+              <button id="admin-cancel" ng-click="admin.cancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
