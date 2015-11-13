@@ -1,0 +1,24 @@
+{
+  "name": "neighborhood-map",
+  "homepage": "https://github.com/anydoby/udacity",
+  "authors": [
+    "anydoby <anydoby@gmail.com>"
+  ],
+  "description": "The neighborhood map application which allows searching/filtering through interesting places in the neighborhood.",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "knockout": "~3.3.0",
+    "jquery": "~2.0.0",
+    "bootstrap": "~3.3.5"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

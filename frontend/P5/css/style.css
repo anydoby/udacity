@@ -1,0 +1,44 @@
+* {
+  outline: 1px aqua solid;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#mapapp {
+  margin: 0px 10px;
+  height:100%;
+}
+
+#main {
+  height: 100%;
+}
+
+.container {
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+#map {
+  width: 100%;
+  height: 90%;
+}
+
+@media screen and (min-width: 600px) {
+  #filter-pane {
+    flex-wrap: nowrap;
+  }
+}

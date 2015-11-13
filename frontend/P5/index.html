@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="initial-scale=1.0">
+<meta charset="utf-8">
+<title>Neighbourhood Map</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <section id="mapapp">
+    <header id="header">
+      <h1>Map and menu</h1>
+    </header>
+    <section id="main" class="container row">
+      <div id="filter-pane" class="col">
+        <div class="row">
+          <input id="filter-field">
+          <button id="filter-button">Filter</button>
+        </div>
+        <div id="locations"></div>
+      </div>
+      <div id="map"></div>
+    </section>
+  </section>
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/jquery.js"></script>
+  <script src="bower_components/knockout/dist/knockout.js"></script>
+  <!-- endbower -->
+  <script src="js/app.js"></script>
+</body>
+</html>
