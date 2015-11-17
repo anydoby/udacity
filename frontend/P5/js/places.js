@@ -8,7 +8,6 @@ var app = app || {};
         'Tomo Sushi', 'Eat Mode', 'Balthazar\'s Keuken', 'Mangetsu', 'La Perla Restaurant', 'Oriental City B.V.',
         'Bazar Amsterdam', 'Castell', 'Broodje Bert', 'Greenwoods', 'Restaurant Greetje', 'Moeders' ]
   };
-  app.locations = [];
   /*
    * Create the map, initialize places service and set map bounds
    */
@@ -23,23 +22,24 @@ var app = app || {};
   app.placesService = new google.maps.places.PlacesService(app.map);
   window.mapBounds = new google.maps.LatLngBounds();
 
+  app.locations = ko.observableArray();
   /*
-   * createMapMarker(placeData) reads Google Places search results to create map
-   * pins. placeData is the object returned from search results containing
-   * information about a single location. We also put the marker and infoWindow
-   * in it (marker, infoWindow fields).
+   * When a location is added we want to fit it on the map
    */
-  function createMapMarker(placeData) {
-    // The next lines save location data from the search result object to local
-    // variables
-    var lat = placeData.geometry.location.lat(); // latitude from the place
-    // service
-    var lon = placeData.geometry.location.lng(); // longitude from the place
+  app.locations.subscribe(function(newElements) {
+    newElements.forEach(function(newLocation) {
+      window.mapBounds.extend(newLocation.mapData.geometry.location);
+      app.map.fitBounds(window.mapBounds);
+      app.map.setCenter(window.mapBounds.getCenter());
+    });
+  });
+
+  /*
+   * Reads Google Places search results, creates markers and infoWindow.
+   */
+  function createLocation(placeData) {
     // service
     var name = placeData.formatted_address; // name of the place from the place
-    // service
-    var bounds = window.mapBounds; // current boundaries of the map window
-
     // marker is an object with additional data about the pin for a single
     // location
     var marker = new google.maps.Marker({
@@ -55,16 +55,7 @@ var app = app || {};
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.open(app.map, marker);
     });
-
-    // this is where the pin actually gets added to the map.
-    // bounds.extend() takes in a map location object
-    bounds.extend(new google.maps.LatLng(lat, lon));
-    // fit the map to the new marker
-    app.map.fitBounds(bounds);
-    // center the map
-    app.map.setCenter(bounds.getCenter());
-    placeData.marker = marker;
-    placeData.infoWindow = infoWindow;
+    return new Location(placeData, marker, infoWindow);
   }
 
   /*
@@ -75,9 +66,9 @@ var app = app || {};
       query : loc + " " + rawLocations.city
     }, function(result, state) {
       if (state == google.maps.places.PlacesServiceStatus.OK) {
-        console.log(result[0]);
-        app.locations.push(result[0]);
-        createMapMarker(result[0]);
+        //console.log(result[0]);
+        var location = createLocation(result[0]);
+        app.locations.push(location);
       }
     });
   });

@@ -14,12 +14,12 @@
     <section id="main" class="container row">
       <div id="filter-pane" class="col">
         <div class="row">
-          <input id="filter-field">
+          <input id="filter-field" data-bind="text: queryText">
           <button id="filter-button">Filter</button>
         </div>
         <div id="locations">
-          <ul >
-            <li></li>
+          <ul data-bind="foreach: locations">
+            <li data-bind="text: title"></li>
           </ul>
         </div>
       </div>
@@ -32,6 +32,7 @@
   <script src="bower_components/jquery/jquery.js"></script>
   <script src="bower_components/knockout/dist/knockout.js"></script>
   <!-- endbower -->
+  <script src="js/models/Location.js" async="async"></script>
   <script src="js/places.js" async="async"></script>
   <script src="js/app.js" async="async"></script>
 </body>
