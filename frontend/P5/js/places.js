@@ -1,62 +1,78 @@
 var app = app || {};
 
 (function() {
-  var rawLocations = {
+  app.rawLocations = {
     city : 'Amsterdam NL',
     locations : [ 'Café-restaurant van Kerkwijk', 'Restaurant Azmarino', 'Singel 404', 'Restaurant De Kas',
         'Getto Food & Drinks', '&samhoud places', 'Hungry Birds Street Food Tours Amsterdam', 'Pancakes Amsterdam',
         'Tomo Sushi', 'Eat Mode', 'Balthazar\'s Keuken', 'Mangetsu', 'La Perla Restaurant', 'Oriental City B.V.',
         'Bazar Amsterdam', 'Castell', 'Broodje Bert', 'Greenwoods', 'Restaurant Greetje', 'Moeders' ]
   };
-  
+
   /**
-   * Make a service around yelp search
-   * @param location the location you want to get info about
-   * @param callback the response callback
+   * Make a service around yelp search. Should have been very simple according
+   * to yelp docs, a real life example appeared to be a lot of code, I swear
+   * they did not have it in their official docs:
+   * 
+   * https://github.com/levbrie/mighty_marks/blob/master/yelp-search-sample.html
+   * 
+   * Jeeezzz, it's way too much for a simple restful service call
+   * 
+   * @param location
+   *          the location you want to get info about
+   * @param callback
+   *          the response callback
    */
   app.yelp = function(location, callback) {
     var auth = {
-        //
-        // Update with your auth tokens.
-        // https://github.com/levbrie/mighty_marks/blob/master/yelp-search-sample.html
-        //
-        consumerKey : "VMVBpBVP-Wb8jofcKJAS-w",
-        consumerSecret : "r4Izjn5MZPlbOnc66xFJ5FxfIrE",
-        accessToken : "mWIcBqKui4e7QGnbgkSetWIr4TWtforB",
-        // This example is a proof of concept, for how to use the Yelp v2 API with javascript.
-        // You wouldn't actually want to expose your access token secret like this in a real application.
-        accessTokenSecret : "dVXj7GHKn2AXCxPIF27z4MbWagg",
-        serviceProvider : {
-          signatureMethod : "HMAC-SHA1"
-        }
-      };
-    var token = {
-      public : '',
-      secret : ''
+      consumerKey : "VMVBpBVP-Wb8jofcKJAS-w",
+      consumerSecret : "r4Izjn5MZPlbOnc66xFJ5FxfIrE",
+      accessToken : "mWIcBqKui4e7QGnbgkSetWIr4TWtforB",
+      accessTokenSecret : "dVXj7GHKn2AXCxPIF27z4MbWagg",
+      serviceProvider : {
+        signatureMethod : "HMAC-SHA1"
+      }
     };
-    var request_data = {
-        url: 'https://api.yelp.com/v2/search?term' + location.title() + '&location=' + rawLocations.city,
-        method: 'GET',
-        data : {}
+
+    var terms = location.title();
+    var near = location.address();
+    var accessor = {
+      consumerSecret : auth.consumerSecret,
+      tokenSecret : auth.accessTokenSecret
     };
+    parameters = [];
+    parameters.push([ 'term', terms ]);
+    parameters.push([ 'location', near ]);
+    parameters.push([ 'limit', 1 ]);
+    var lat = location.mapData.geometry.location.lat();
+    var lon = location.mapData.geometry.location.lng();
+    parameters.push([ 'cll', lat + "," + lon ]);
+    parameters.push([ 'radius_filter', 25 ]);
+    parameters.push([ 'callback', 'cb' ]);
+    parameters.push([ 'oauth_consumer_key', auth.consumerKey ]);
+    parameters.push([ 'oauth_consumer_secret', auth.consumerSecret ]);
+    parameters.push([ 'oauth_token', auth.accessToken ]);
+    parameters.push([ 'oauth_signature_method', 'HMAC-SHA1' ]);
+    var message = {
+      'action' : 'http://api.yelp.com/v2/search',
+      'method' : 'GET',
+      'parameters' : parameters
+    };
+    OAuth.setTimestampAndNonce(message);
+    OAuth.SignatureMethod.sign(message, accessor);
+    var parameterMap = OAuth.getParameterMap(message.parameters);
+    parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
+
     $.ajax({
-      url : request_data.url,
-      method : request_data.url,
-      data : auth.authorize(request_data, token)
-    }).done(callback);
+      'url' : message.action,
+      'data' : parameterMap,
+      'cache' : true,
+      'dataType' : 'jsonp',
+      'jsonpCallback' : 'cb',
+      'success' : callback
+    });
   };
-  /*
-   * Create the map, initialize places service and set map bounds
-   */
-  app.map = new google.maps.Map(document.getElementById('map'), {
-    center : {
-      lat : -34.397,
-      lng : 150.644
-    },
-    scrollwheel : true,
-    zoom : 8
-  });
-  app.placesService = new google.maps.places.PlacesService(app.map);
+
   window.mapBounds = new google.maps.LatLngBounds();
 
   app.locations = ko.observableArray();
@@ -74,9 +90,10 @@ var app = app || {};
   /*
    * Reads Google Places search results, creates markers and infoWindow.
    */
-  function createLocation(placeData) {
+  app.createLocation = function(placeData) {
     // service
-    var address = placeData.formatted_address; // name of the place from the place
+    var address = placeData.formatted_address; // name of the place from the
+    // place
     // marker is an object with additional data about the pin for a single
     // location
     var marker = new google.maps.Marker({
@@ -98,29 +115,42 @@ var app = app || {};
     var content = $('<div/>');
     content.append($('<div/>').addClass('place-title').text(placeData.name));
     content.append($('<div/>').addClass('place-address').text(address));
+    var yelpDetails = $(
+        '<div id='+placeData.place_id+' class="yelp-data"><div data-bind="text: yelpData"/>' +
+        '<img data-bind="attr: {src: yelpImage}"/></div>');
+    content.append(yelpDetails);
+
     var infoWindow = new google.maps.InfoWindow({
       content : content.html(),
     });
 
     var location = new Location(placeData, marker, infoWindow);
+
     google.maps.event.addListener(marker, 'click', function() {
-      location.openInfo();
+      app.openInfo(location);
     });
     return location;
   }
 
-  /*
-   * turn restaurant names to locations with google places service
-   */
-  rawLocations.locations.forEach(function(loc) {
-    app.placesService.textSearch({
-      query : loc + " " + rawLocations.city
-    }, function(result, state) {
-      if (state == google.maps.places.PlacesServiceStatus.OK) {
-        // console.log(result[0]);
-        var location = createLocation(result[0]);
-        app.locations.push(location);
-      }
-    });
-  });
+  app.openInfo = function(location) {
+    location.infoWindow.open(app.map, location.marker);
+    location.marker.bounce();
+    /*
+     * get more info about the place from yelp and display it in the info window
+     */
+    if (!location.yelpImage()) {
+      ko.applyBindings(location, document.getElementById(location.mapData.place_id));
+      app.yelp(location, function(data) {
+        console.log(data);
+        if (data.total != 0) {
+          location.yelpData(data.businesses[0].snippet_text);
+          location.yelpImage(data.businesses[0].image_url);
+        } else {
+          location.yelpData('Nothing found :( We swear, the panda did not eat it all.');
+          location.yelpImage('img/404.png');
+        }
+      });
+    }
+  };
+
 })();

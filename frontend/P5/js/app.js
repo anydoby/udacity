@@ -22,57 +22,87 @@ var SearchViewModel = function(app) {
     }
 
     var queryTerms = queryText.toLowerCase().split(' ');
-    var filtered = app.locations().filter(function(location) {
-      for (var i = 0; i < queryTerms.length; i++) {
-        var term = queryTerms[i];
-        if (location.title().toLowerCase().indexOf(term) != -1 ||
-            location.address().toLowerCase().indexOf(term) != -1) {
-          return true;
-        }
-      }
-      return false;
-    });
+    var filtered = app.locations().filter(
+        function(location) {
+          for (var i = 0; i < queryTerms.length; i++) {
+            var term = queryTerms[i];
+            if (location.title().toLowerCase().indexOf(term) != -1
+                || location.address().toLowerCase().indexOf(term) != -1) {
+              return true;
+            }
+          }
+          return false;
+        });
     return filtered;
   }, this);
-  
-  var hide = function(location){location.visible(false);};
-  var show = function(location){location.visible(true);};
-  var closeInfo = function(location){location.infoWindow.close();};
-  
-  this.locations.subscribe(function(newLocations){
+
+  var hide = function(location) {
+    location.visible(false);
+  };
+  var show = function(location) {
+    location.visible(true);
+  };
+  var closeInfo = function(location) {
+    location.infoWindow.close();
+  };
+
+  this.locations.subscribe(function(newLocations) {
     app.locations().forEach(hide);
     newLocations.forEach(show);
   });
-  
+
   this.click = function(location) {
     app.locations().forEach(closeInfo);
-    location.openInfo();
-    // if there's no additional info about the location load it from yelp
-    if (!location.yelpInfo) {
-      app.yelp(location, function(data){
-        console.log(data);
-      });
-    }
+    app.openInfo(location);
   };
 };
 
 $(function() {
   /*
-   * Make the text highlighted upon binding.
-   * Borrowed idea from http://www.knockmeout.net/2011/06/fun-with-highlighting-in-knockoutjs.html
+   * Create the map, initialize places service and set map bounds
+   */
+  app.map = new google.maps.Map(document.getElementById('map'), {
+    center : {
+      lat : -34.397,
+      lng : 150.644
+    },
+    scrollwheel : true,
+    zoom : 8
+  });
+  google.maps.event.addListener(app.map, 'bounds_changed', function() {
+    $('#filter-pane').css('height',$('#map').height() + 'px');
+  });  
+  app.placesService = new google.maps.places.PlacesService(app.map);
+  /*
+   * turn restaurant names to locations with google places service
+   */
+  app.rawLocations.locations.forEach(function(loc) {
+    app.placesService.textSearch({
+      query : loc + " " + app.rawLocations.city
+    }, function(result, state) {
+      if (state == google.maps.places.PlacesServiceStatus.OK) {
+        var location = app.createLocation(result[0]);
+        app.locations.push(location);
+      }
+    });
+  });
+  
+  /*
+   * Make the text highlighted upon binding. Borrowed idea from
+   * http://www.knockmeout.net/2011/06/fun-with-highlighting-in-knockoutjs.html
    */
   ko.bindingHandlers.highlight = {
-      update: function(element, valueAccessor) {
-          var options = valueAccessor();
-          var value = ko.utils.unwrapObservable(options.text);
-          var search = ko.utils.unwrapObservable(options.match);
-          if (isEmpty(search)) {
-            element.innerHTML = value;
-          } else {            
-            var replacement = '<span class="highlight">' + search + '</span>';
-            element.innerHTML = value.replace(new RegExp(search, 'ig'), replacement);
-          }
+    update : function(element, valueAccessor) {
+      var options = valueAccessor();
+      var value = ko.utils.unwrapObservable(options.text);
+      var search = ko.utils.unwrapObservable(options.match);
+      if (isEmpty(search)) {
+        element.innerHTML = value;
+      } else {
+        var replacement = '<span class="highlight">' + search + '</span>';
+        element.innerHTML = value.replace(new RegExp(search, 'ig'), replacement);
       }
+    }
   };
   ko.applyBindings(new SearchViewModel(app));
 });

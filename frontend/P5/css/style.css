@@ -2,12 +2,18 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   font-family: sans-serif;
+}
+
+section, header {
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
   text-align: center;
+  margin: 0;
+  padding: 2px;
 }
 
 h1 > img {
@@ -21,11 +27,11 @@ ul {
 
 #mapapp {
   margin: 0px 10px;
-  height:100%;
+  height: 100%;
 }
 
 #main {
-  height: 100%;
+  height: 90%;
 }
 
 .container {
@@ -53,6 +59,8 @@ ul {
 
 #locations {
   padding-right: 5px;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .place-item:hover {
@@ -67,6 +75,22 @@ ul {
 .place-title {
   width: 100%;
   font-weight: bold;
+}
+
+.yelp-data {
+	padding-top: 10px;
+	display: inline-flex;
+	float: right;
+}
+
+.yelp-data > div {
+	padding: 5px;
+	background-color: aliceblue;
+	font-style: italic;
+	max-width: 200px;
+}
+.yelp-data > img {
+	padding-left: 10px;
 }
 
 .highlight {
