@@ -9,7 +9,7 @@
 <body>
   <section id="mapapp">
     <header id="header">
-      <h1>Map and menu</h1>
+      <h1>Map <img src='http://www.clker.com/cliparts/F/B/O/x/u/B/knife-and-fork-orange-th.png' alt='Knife And Fork Orange clip art'/> Menu</h1>
     </header>
     <section id="main" class="container row">
       <div id="filter-pane" class="col">
@@ -19,7 +19,13 @@
         </div>
         <div id="locations">
           <ul data-bind="foreach: locations">
-            <li data-bind="text: title"></li>
+            <li class="place-item row" data-bind="click: $parent.click">
+              <div class="column">
+                <div class="place-title" data-bind="highlight: { text: title, match: $parent.queryText}"></div>
+                <div class="place-address" data-bind="highlight: { text: address, match: $parent.queryText}"></div>
+              </div>
+              <img class="place-photo" data-bind="visible: photo, attr: {src: photo, alt: title}" />
+            </li>
           </ul>
         </div>
       </div>
@@ -27,6 +33,8 @@
     </section>
   </section>
   <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+  <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+  <script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script> 
   <!-- build:js(.) scripts/vendor.js -->
   <!-- bower:js -->
   <script src="bower_components/jquery/jquery.js"></script>

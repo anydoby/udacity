@@ -6,8 +6,17 @@ var Location = function(googleLoc, marker, infoWindow) {
   this.marker = marker;
   this.infoWindow = infoWindow;
   this.title = ko.observable(googleLoc.name);
+  this.address = ko.observable(googleLoc.formatted_address);
+  this.photo = ko.observable();
+  if (googleLoc.photos) {
+    this.photo(googleLoc.photos[0].getUrl({maxWidth:100,maxHeight:100}));
+  }
   this.visible = ko.pureComputed({
     read : function(){return marker.isVisible();},
     write : function(visible) {marker.setVisible(visible);infoWindow.close();}
   });
+  this.openInfo = function() {
+    infoWindow.open(marker.map, marker);
+    marker.bounce();
+  };
 };

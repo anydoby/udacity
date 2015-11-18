@@ -8,6 +8,43 @@ var app = app || {};
         'Tomo Sushi', 'Eat Mode', 'Balthazar\'s Keuken', 'Mangetsu', 'La Perla Restaurant', 'Oriental City B.V.',
         'Bazar Amsterdam', 'Castell', 'Broodje Bert', 'Greenwoods', 'Restaurant Greetje', 'Moeders' ]
   };
+  
+  /**
+   * Make a service around yelp search
+   * @param location the location you want to get info about
+   * @param callback the response callback
+   */
+  app.yelp = function(location, callback) {
+    var auth = {
+        //
+        // Update with your auth tokens.
+        // https://github.com/levbrie/mighty_marks/blob/master/yelp-search-sample.html
+        //
+        consumerKey : "VMVBpBVP-Wb8jofcKJAS-w",
+        consumerSecret : "r4Izjn5MZPlbOnc66xFJ5FxfIrE",
+        accessToken : "mWIcBqKui4e7QGnbgkSetWIr4TWtforB",
+        // This example is a proof of concept, for how to use the Yelp v2 API with javascript.
+        // You wouldn't actually want to expose your access token secret like this in a real application.
+        accessTokenSecret : "dVXj7GHKn2AXCxPIF27z4MbWagg",
+        serviceProvider : {
+          signatureMethod : "HMAC-SHA1"
+        }
+      };
+    var token = {
+      public : '',
+      secret : ''
+    };
+    var request_data = {
+        url: 'https://api.yelp.com/v2/search?term' + location.title() + '&location=' + rawLocations.city,
+        method: 'GET',
+        data : {}
+    };
+    $.ajax({
+      url : request_data.url,
+      method : request_data.url,
+      data : auth.authorize(request_data, token)
+    }).done(callback);
+  };
   /*
    * Create the map, initialize places service and set map bounds
    */
@@ -39,23 +76,37 @@ var app = app || {};
    */
   function createLocation(placeData) {
     // service
-    var name = placeData.formatted_address; // name of the place from the place
+    var address = placeData.formatted_address; // name of the place from the place
     // marker is an object with additional data about the pin for a single
     // location
     var marker = new google.maps.Marker({
       map : app.map,
       position : placeData.geometry.location,
-      title : name
+      title : address,
+      animation : google.maps.Animation.DROP,
+      bounce : function() {
+        if (this.getAnimation() != null) {
+          this.setAnimation(null);
+        } else {
+          this.setAnimation(google.maps.Animation.BOUNCE);
+          // bounce a bit and then stop
+          window.setTimeout(this.bounce.bind(this), 1400);
+        }
+      }
     });
 
+    var content = $('<div/>');
+    content.append($('<div/>').addClass('place-title').text(placeData.name));
+    content.append($('<div/>').addClass('place-address').text(address));
     var infoWindow = new google.maps.InfoWindow({
-      content : name
+      content : content.html(),
     });
 
+    var location = new Location(placeData, marker, infoWindow);
     google.maps.event.addListener(marker, 'click', function() {
-      infoWindow.open(app.map, marker);
+      location.openInfo();
     });
-    return new Location(placeData, marker, infoWindow);
+    return location;
   }
 
   /*
@@ -66,7 +117,7 @@ var app = app || {};
       query : loc + " " + rawLocations.city
     }, function(result, state) {
       if (state == google.maps.places.PlacesServiceStatus.OK) {
-        //console.log(result[0]);
+        // console.log(result[0]);
         var location = createLocation(result[0]);
         app.locations.push(location);
       }

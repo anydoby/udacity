@@ -1,12 +1,22 @@
-* {
-  outline: 1px aqua solid;
-}
-
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+h1 > img {
+  vertical-align: middle;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
 }
 
 #mapapp {
@@ -35,6 +45,32 @@ html, body {
 #map {
   width: 100%;
   height: 90%;
+}
+
+#filter-field {
+  width: 100%;
+}
+
+#locations {
+  padding-right: 5px;
+}
+
+.place-item:hover {
+  background-color: AliceBlue;
+  cursor: pointer;
+}
+
+.place-item {
+  padding: 10px 0px;
+}
+
+.place-title {
+  width: 100%;
+  font-weight: bold;
+}
+
+.highlight {
+  background-color: yellow; 
 }
 
 @media screen and (min-width: 600px) {
