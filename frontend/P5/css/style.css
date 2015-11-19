@@ -59,6 +59,8 @@ header {
 
 #filter-pane {
   height: 100%;
+  width: 25%;
+  max-width: 25%;
 }
 
 #filter-row {
