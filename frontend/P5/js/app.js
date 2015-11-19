@@ -69,9 +69,6 @@ $(function() {
     scrollwheel : true,
     zoom : 8
   });
-  google.maps.event.addListener(app.map, 'bounds_changed', function() {
-    $('#filter-pane').css('height',$('#map').height() + 'px');
-  });  
   app.placesService = new google.maps.places.PlacesService(app.map);
   /*
    * turn restaurant names to locations with google places service

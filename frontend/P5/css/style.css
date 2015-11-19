@@ -16,7 +16,7 @@ h1 {
   padding: 2px;
 }
 
-h1 > img {
+h1>img {
   vertical-align: middle;
 }
 
@@ -30,8 +30,17 @@ ul {
   height: 100%;
 }
 
-#main {
-  height: 90%;
+/*
+    Found no other way to get rid of scrollbars in the map.
+    Have to calculate the height in css or javascript
+*/
+header {
+  height: 112px;
+  line-height: 112px;
+}
+
+#search-with-map {
+  height: calc(100% - 112px);
 }
 
 .container {
@@ -48,9 +57,12 @@ ul {
   flex-direction: row;
 }
 
-#map {
-  width: 100%;
-  height: 90%;
+#filter-pane {
+  height: 100%;
+}
+
+#filter-row {
+  height: 20px;
 }
 
 #filter-field {
@@ -59,8 +71,13 @@ ul {
 
 #locations {
   padding-right: 5px;
+  overflow-y: auto;
+  height: calc(100% - 20px);
+}
+
+#map {
+  width: 100%;
   height: 100%;
-  overflow-y: scroll;
 }
 
 .place-item:hover {
@@ -78,23 +95,24 @@ ul {
 }
 
 .yelp-data {
-	padding-top: 10px;
-	display: inline-flex;
-	float: right;
+  padding-top: 10px;
+  display: inline-flex;
+  float: right;
 }
 
-.yelp-data > div {
-	padding: 5px;
-	background-color: aliceblue;
-	font-style: italic;
-	max-width: 200px;
+.yelp-data>div {
+  padding: 5px;
+  background-color: aliceblue;
+  font-style: italic;
+  max-width: 200px;
 }
-.yelp-data > img {
-	padding-left: 10px;
+
+.yelp-data>img {
+  padding-left: 10px;
 }
 
 .highlight {
-  background-color: yellow; 
+  background-color: yellow;
 }
 
 @media screen and (min-width: 600px) {
