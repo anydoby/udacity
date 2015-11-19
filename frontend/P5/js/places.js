@@ -115,6 +115,7 @@ var app = app || {};
     var content = $('<div/>');
     content.append($('<div/>').addClass('place-title').text(placeData.name));
     content.append($('<div/>').addClass('place-address').text(address));
+    // create a template for knockout
     var yelpDetails = $(
         '<div id='+placeData.place_id+' class="yelp-data"><div data-bind="text: yelpData"/>' +
         '<img data-bind="attr: {src: yelpImage}"/></div>');
@@ -139,6 +140,7 @@ var app = app || {};
      * get more info about the place from yelp and display it in the info window
      */
     if (!location.yelpImage()) {
+      // let Knockout dynamically set the data for location's description when it's done loading
       ko.applyBindings(location, document.getElementById(location.mapData.place_id));
       app.yelp(location, function(data) {
         console.log(data);
@@ -146,7 +148,7 @@ var app = app || {};
           location.yelpData(data.businesses[0].snippet_text);
           location.yelpImage(data.businesses[0].image_url);
         } else {
-          location.yelpData('Nothing found :( We swear, the panda did not eat it all.');
+          location.yelpData('Nothing found :( We swear, the panda did not eat it all. Come and check yourself');
           location.yelpImage('img/404.png');
         }
       });
