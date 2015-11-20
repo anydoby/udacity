@@ -132,7 +132,7 @@ header {
   #filter-pane {
     height: initial;
   }
-  #locations {
+  #locations .place-address {
     display: none;
   }
 }
