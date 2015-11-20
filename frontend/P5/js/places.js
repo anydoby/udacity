@@ -112,21 +112,13 @@ var app = app || {};
       }
     });
 
-    var content = $('<div/>');
-    content.append($('<div/>').addClass('place-title').text(placeData.name));
-    content.append($('<div/>').addClass('place-address').text(address));
-    // create a template for knockout
-    var yelpDetails = $(
-        '<div id='+placeData.place_id+' class="yelp-data"><div data-bind="text: yelpData"/>' +
-        '<img data-bind="attr: {src: yelpImage}"/></div>');
-    content.append(yelpDetails);
-
+    var infoMarkup = $($('#infoWindowTemplate').html());    
+    var content = infoMarkup.attr('id', placeData.place_id).get(0);
     var infoWindow = new google.maps.InfoWindow({
-      content : content.html(),
+      content : content
     });
 
     var location = new Location(placeData, marker, infoWindow);
-
     google.maps.event.addListener(marker, 'click', function() {
       app.openInfo(location);
     });

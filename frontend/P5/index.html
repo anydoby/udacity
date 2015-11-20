@@ -14,8 +14,7 @@
     <section id="search-with-map" class="container row">
       <div id="filter-pane" class="col">
         <div id="filter-row" class="row">
-          <input id="filter-field" data-bind="textInput: queryText">
-          <button id="filter-button">Filter</button>
+          <input id="filter-field" data-bind="textInput: queryText" placeholder="Filter on name and address">
         </div>
         <div id="locations">
           <ul data-bind="foreach: locations">
@@ -39,6 +38,16 @@
   <!-- bower:js -->
   <script src="bower_components/jquery/jquery.js"></script>
   <script src="bower_components/knockout/dist/knockout.js"></script>
+  <script id="infoWindowTemplate" type="text/template">
+    <div id="place-id" class="column place-info">
+     <div class="row place-title" data-bind="text: title"></div>
+     <div class="row place-address" data-bind="text: address"></div>
+     <div class="row yelp-data">
+      <div data-bind="text: yelpData"></div>
+      <img class="yelp-image" data-bind="attr: {src: yelpImage}"/>
+     </div>
+    </div>
+  </script>
   <!-- endbower -->
   <script src="js/models/Location.js" async="async"></script>
   <script src="js/places.js" async="async"></script>

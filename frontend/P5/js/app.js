@@ -49,6 +49,9 @@ var SearchViewModel = function(app) {
   this.locations.subscribe(function(newLocations) {
     app.locations().forEach(hide);
     newLocations.forEach(show);
+    app.map.fitBounds(window.mapBounds);
+    app.map.setCenter(window.mapBounds.getCenter());
+
   });
 
   this.click = function(location) {

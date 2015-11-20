@@ -74,6 +74,7 @@ header {
 #locations {
   padding-right: 5px;
   overflow-y: auto;
+  overflow-x: hidden;
   height: calc(100% - 20px);
 }
 
@@ -96,20 +97,19 @@ header {
   font-weight: bold;
 }
 
-.yelp-data {
-  padding-top: 10px;
-  display: inline-flex;
-  float: right;
+.place-info {
+  width: 250px;
+  overflow: hidden;
 }
 
-.yelp-data>div {
+.yelp-data {
   padding: 5px;
   background-color: aliceblue;
   font-style: italic;
-  max-width: 200px;
+  width: 100%;
 }
 
-.yelp-data>img {
+.yelp-image {
   padding-left: 10px;
 }
 
@@ -117,8 +117,41 @@ header {
   background-color: yellow;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (max-width: 760px) {
+    #filter-pane {
+        position: absolute;
+        z-index: 100;
+        background-color: rgba(255,255,255,0.5);
+        height: 50%;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+@media screen and (max-width: 400px) {
   #filter-pane {
-    flex-wrap: nowrap;
+    height: initial;
   }
+  #locations {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 850px) {
+  header {
+    display: none;
+  }
+  #search-with-map {
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  #mapapp {
+    margin: 0;
+  }
+ .place-photo {
+    display: none;
+ } 
 }
