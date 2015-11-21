@@ -68,8 +68,10 @@ var app = app || {};
       'data' : parameterMap,
       'cache' : true,
       'dataType' : 'jsonp',
-      'jsonpCallback' : 'cb',
-      'success' : callback
+      'jsonpCallback' : 'cb'
+    }).done(callback).fail(function(data) {
+        location.yelpData('Nothing found :( Server responded with ' + data.statusText);
+        location.yelpImage('img/404.png');      
     });
   };
 
@@ -128,23 +130,22 @@ var app = app || {};
   app.openInfo = function(location) {
     location.infoWindow.open(app.map, location.marker);
     location.marker.bounce();
-    /*
-     * get more info about the place from yelp and display it in the info window
-     */
     if (!location.yelpImage()) {
       // let Knockout dynamically set the data for location's description when it's done loading
       ko.applyBindings(location, document.getElementById(location.mapData.place_id));
-      app.yelp(location, function(data) {
-        console.log(data);
-        if (data.total != 0) {
-          location.yelpData(data.businesses[0].snippet_text);
-          location.yelpImage(data.businesses[0].image_url);
-        } else {
-          location.yelpData('Nothing found :( We swear, the panda did not eat it all. Come and check yourself');
-          location.yelpImage('img/404.png');
-        }
-      });
     }
+    /*
+     * get more info about the place from yelp and display it in the info window
+     */
+    app.yelp(location, function(data) {
+      if (data.total != 0) {
+        location.yelpData(data.businesses[0].snippet_text);
+        location.yelpImage(data.businesses[0].image_url);
+      } else {
+        location.yelpData('Nothing found :( We swear, the panda did not eat it all. Come and check yourself');
+        location.yelpImage('img/404.png');
+      }
+    });
   };
 
 })();
