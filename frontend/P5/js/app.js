@@ -5,15 +5,13 @@ function isEmpty(text) {
 }
 
 /*
- * represents input filter query and the resulting locations that match the
- * query
+ * represents input filter query and the resulting locations that match the query
  */
 var SearchViewModel = function(app) {
   this.queryText = ko.observable();
 
   /*
-   * Results holds locations filtered by text query. If there's no query text
-   * everything is returned.
+   * Results holds locations filtered by text query. If there's no query text everything is returned.
    */
   this.locations = ko.computed(function() {
     var queryText = this.queryText();
@@ -75,13 +73,19 @@ $(function() {
     app.placesService.textSearch({
       query : loc + " " + app.rawLocations.city
     }, function(result, state) {
+      if (state === google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT
+          || state === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+        return;
+      }
       if (state == google.maps.places.PlacesServiceStatus.OK) {
         var location = app.createLocation(result[0]);
         app.locations.push(location);
+      } else {
+        alert("Unable to load data from Google maps. Please check your connection.");
       }
     });
   });
-  
+
   /*
    * Make the text highlighted upon binding. Borrowed idea from
    * http://www.knockmeout.net/2011/06/fun-with-highlighting-in-knockoutjs.html
@@ -94,7 +98,7 @@ $(function() {
       if (isEmpty(search)) {
         element.innerHTML = value;
       } else {
-        element.innerHTML = value.replace(new RegExp("("+search+")", 'ig'), '<span class="highlight">$1</span>');
+        element.innerHTML = value.replace(new RegExp("(" + search + ")", 'ig'), '<span class="highlight">$1</span>');
       }
     }
   };
