@@ -53,10 +53,11 @@ var SearchViewModel = function(app) {
   };
 };
 
-$(function() {
+app.init = function() {
   /*
    * Create the map, initialize places service and set map bounds
    */
+  window.mapBounds = new google.maps.LatLngBounds();
   app.map = new google.maps.Map(document.getElementById('map'), {
     center : {
       lat : -34.397,
@@ -103,4 +104,8 @@ $(function() {
     }
   };
   ko.applyBindings(new SearchViewModel(app));
-});
+};
+
+app.mapsFailed = function(){
+  
+};

@@ -75,8 +75,6 @@ var app = app || {};
     });
   };
 
-  window.mapBounds = new google.maps.LatLngBounds();
-
   app.locations = ko.observableArray();
   /*
    * When a location is added we want to fit it on the map
