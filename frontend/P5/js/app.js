@@ -99,8 +99,7 @@ $(function() {
       if (isEmpty(search)) {
         element.innerHTML = value;
       } else {
-        var replacement = '<span class="highlight">' + search + '</span>';
-        element.innerHTML = value.replace(new RegExp(search, 'ig'), replacement);
+        element.innerHTML = value.replace(new RegExp("("+search+")", 'ig'), '<span class="highlight">$1</span>');
       }
     }
   };
