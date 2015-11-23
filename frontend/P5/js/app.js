@@ -42,10 +42,6 @@ var SearchViewModel = function(app) {
   var show = function(location) {
     location.visible(true);
   };
-  var closeInfo = function(location) {
-    location.infoWindow.close();
-  };
-
   this.locations.subscribe(function(newLocations) {
     app.locations().forEach(hide);
     newLocations.forEach(show);
@@ -55,7 +51,6 @@ var SearchViewModel = function(app) {
   });
 
   this.click = function(location) {
-    app.locations().forEach(closeInfo);
     app.openInfo(location);
   };
 };

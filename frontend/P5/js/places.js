@@ -127,7 +127,11 @@ var app = app || {};
     return location;
   }
 
-  app.openInfo = function(location) {
+  app.openInfo = function(location) {   
+    app.locations().forEach(function(location) {
+      location.infoWindow.close();
+    });
+    
     location.infoWindow.open(app.map, location.marker);
     location.marker.bounce();
     if (!location.yelpImage()) {
