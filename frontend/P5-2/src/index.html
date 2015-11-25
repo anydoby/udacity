@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="initial-scale=1.0">
+<meta charset="utf-8">
+<title>Health Tracker</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <section id="application">
+    <header>
+      <h1>Health Tracker</h1>
+    </header>
+    <section id="main" class="container row">        
+    </section>
+  </section>
+  <script src="../bower_components/knockout/dist/knockout.js"></script>
+  <script src="../bower_components/underscore/underscore.js"></script>
+  <script src="../bower_components/backbone/backbone.js"></script>
+  <script src="js/setup.js" async="async"></script>
+  <script src="js/app.js" async="async"></script>
+  <script id="setup-name" type="text/template">
+    <div class="screen">
+        <h2>Welcome to the Health Tracker</h2>
+        <p>
+        Please enter your name:
+        <input id="setup-name-field" name="name"/>
+    </div>
+  </script>
+</body>
+</html>
