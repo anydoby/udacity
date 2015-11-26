@@ -16,18 +16,32 @@
       <div id="setup-name" class="screen hidden">
         <p>
           What is your name? <input id="setup-name-field" name="name" />
+          <div id="setup-name-error" class="error hidden">Please enter your name</div>
       </div>
       <div id="setup-dob" class="screen hidden">
         <p>
           How old are you? <input id="setup-dob-field" name="dob" placeholder="Your age or something like April 26 1961"/>
+          <div id="setup-dob-error" class="error hidden">Please enter your age or date of birth</div>
       </div>
       <div id="setup-sex" class="screen hidden">
         <p>
           Are you a man or a woman? <input id="setup-sex-field" name="sex" placeholder="M or W / Man or Woman / Girl or Boy"/>
+          <div id="setup-sex-error" class="error hidden">Please specify your sex: M or W</div>
       </div>
       <div id="setup-activity" class="screen hidden">
         <p>
           Just one last question. Do you do any sports? How often? <input id="setup-activity-field" name="activity" />
+          <div id="setup-activity-error" class="error hidden">Please enter how many times per week you do some training. If nothing enter 0.</div>
+      </div>
+      <div id="setup-weight" class="screen hidden">
+        <p>
+          Ehm, one more thing. Your weight? <input id="setup-weight-field" name="weight" />
+          <div id="setup-weight-error" class="error hidden">Please enter weight in kilograms or pounds.</div>
+      </div>
+      <div id="setup-height" class="screen hidden">
+        <p>
+          Almost done. How tall are you? <input id="setup-height-field" name="height" />
+          <div id="setup-height-error" class="error hidden">Please enter how tall you are in centimeters or feet&amp;inches.</div>
       </div>
     </section>
     <section id="main" class="container row hidden"></section>
@@ -36,9 +50,8 @@
   <script src="../bower_components/knockout/dist/knockout.js"></script>
   <script src="../bower_components/underscore/underscore.js"></script>
   <script src="../bower_components/backbone/backbone.js"></script>
+  <script src="../bower_components/backbone.localStorage/backbone.localStorage.js"></script>
   <script src="js/setup.js"></script>
   <script src="js/app.js"></script>
-  <script id="setup-name" type="text/template">
-  </script>
 </body>
 </html>
