@@ -29,6 +29,37 @@ function parseSex(input) {
   }
 }
 
+function parseWeight(input) {
+  var pattern = /((\d+\.?\d*)\s*(kg|kilos|kilo|k|kilogram))|((\d+\.?\d*)\s*(l|lb|lbs|pound|pounds))/i;
+  var match = pattern.exec(input);
+  if (match) {
+    return match[2] || match[5] * 0.453592;
+  }
+}
+
+function parseHeight(input) {
+  var pattern = /((\d+\.?\d*)\s*(m|meters|meter))|((\d+\.?\d*)\s*(cm|centimeters|centimeter))|((\d+\.?\d*)\s*('|foot|feet|ft))|((\d+\.?\d*)\s*("|inch|in|inches))/ig;
+  var match;
+  var total = 0;
+  while (match = pattern.exec(input)) {
+    if (match[1]) {
+      total += match[2] * 100;
+    }
+    if (match[4]) {
+      total += match[5] * 1;
+    }
+    if (match[7]) {
+      total += match[8] * 30.48;
+    }
+    if (match[10]) {
+      total += match[11] * 2.54;
+    }
+  }
+  if (total != 0) {
+    return total;
+  }
+}
+
 (function() {
   app.User = $b.Model.extend({
     localStorage : new $b.LocalStorage("health-tracker-user")
@@ -61,12 +92,24 @@ function parseSex(input) {
         var times = /\d+/g;
         return times.test(input) ? input.trim() : null;
       }
-    } ],
+    }, {
+      id : 'weight',
+      validation : function(input) {
+        return parseWeight(input);
+      }
+    }, {
+      id : 'height',
+      validation : function(input) {
+        return parseHeight(input);
+      }
+    }
+
+    ],
 
     initialize : function() {
       this.field = this.$('#setup-' + this.currentStep() + '-field');
-      this.render();
     },
+    
     currentStep : function() {
       return this.steps[this.step].id;
     },
@@ -82,6 +125,17 @@ function parseSex(input) {
         this.nextStep();
       }
     },
+    setStep : function(step) {
+      this.step = step;
+      if (this.step < this.steps.length) {
+        // go to next step in the wizzard
+        this.initialize();
+        this.render();
+      } else {
+        // end of wizzard
+        this.done();
+      }
+    },
     nextStep : function() {
       var input = this.field.val();
       var currentStep = this.currentStep();
@@ -90,14 +144,7 @@ function parseSex(input) {
         this.model.set(currentStep, parsedAndValidatedValue);
         this.$('#setup-' + currentStep).addClass('hidden');
         this.$('#setup-' + currentStep + "-error").addClass('hidden');
-        this.step++;
-        if (this.step < this.steps.length) {
-          // go to next step in the wizzard
-          this.initialize();
-        } else {
-          // end of wizzard
-          this.done();
-        }
+        this.setStep(this.step+1);
       } else {
         // show error if validation failed
         this.$('#setup-' + currentStep + "-error").removeClass('hidden');

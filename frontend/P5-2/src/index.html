@@ -11,6 +11,8 @@
     <header>
       <h1>Health Tracker</h1>
     </header>
+    <section id="main" class="container row hidden">
+    </section>
     <section id="setup" class="hidden">
       <h2>Welcome to the Health Tracker</h2>
       <div id="setup-name" class="screen hidden">
@@ -36,7 +38,7 @@
       <div id="setup-weight" class="screen hidden">
         <p>
           Ehm, one more thing. Your weight? <input id="setup-weight-field" name="weight" />
-          <div id="setup-weight-error" class="error hidden">Please enter weight in kilograms or pounds.</div>
+          <div id="setup-weight-error" class="error hidden">Please enter weight in kilograms (kg) or pounds (lb).</div>
       </div>
       <div id="setup-height" class="screen hidden">
         <p>
@@ -44,7 +46,6 @@
           <div id="setup-height-error" class="error hidden">Please enter how tall you are in centimeters or feet&amp;inches.</div>
       </div>
     </section>
-    <section id="main" class="container row hidden"></section>
   </section>
   <script src="../bower_components/jquery/dist/jquery.js"></script>
   <script src="../bower_components/knockout/dist/knockout.js"></script>
