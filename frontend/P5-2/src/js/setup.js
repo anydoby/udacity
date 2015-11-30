@@ -62,7 +62,7 @@ function parseHeight(input) {
 
 (function() {
   app.User = $b.Model.extend({
-    localStorage : new $b.LocalStorage("health-tracker-user")
+    localStorage : new $b.LocalStorage("ht-user")
   });
 
   app.SetupWizzard = $b.View.extend({
@@ -109,42 +109,50 @@ function parseHeight(input) {
     initialize : function() {
       this.field = this.$('#setup-' + this.currentStep() + '-field');
     },
-    
+
     currentStep : function() {
       return this.steps[this.step].id;
     },
+
     validate : function() {
       return this.steps[this.step].validation;
     },
+
     render : function() {
+      this.steps.forEach(function(s) {
+        this.$('#setup-' + s.id).addClass('hidden');
+        this.$('#setup-' + s.id + "-error").addClass('hidden');
+      });
       this.$el.removeClass('hidden');
       this.$('#setup-' + this.currentStep()).removeClass('hidden');
     },
+
     checkEnterKey : function(e) {
       if (e.keyCode === ENTER_KEY) {
         this.nextStep();
       }
     },
+
     setStep : function(step) {
       this.step = step;
       if (this.step < this.steps.length) {
         // go to next step in the wizzard
         this.initialize();
         this.render();
+        app.router.navigate("setup/" + step);
       } else {
         // end of wizzard
         this.done();
       }
     },
+
     nextStep : function() {
       var input = this.field.val();
       var currentStep = this.currentStep();
       var parsedAndValidatedValue;
       if (parsedAndValidatedValue = this.validate()(input)) {
         this.model.set(currentStep, parsedAndValidatedValue);
-        this.$('#setup-' + currentStep).addClass('hidden');
-        this.$('#setup-' + currentStep + "-error").addClass('hidden');
-        this.setStep(this.step+1);
+        this.setStep(this.step + 1);
       } else {
         // show error if validation failed
         this.$('#setup-' + currentStep + "-error").removeClass('hidden');
@@ -153,6 +161,8 @@ function parseHeight(input) {
     done : function() {
       this.model.save();
       this.$el.addClass("hidden");
+      var today = new Date();
+      app.router.navigate("day/" + today.getFullYear() + "-" + today.getMonth() + "-" + today.getDay());
     }
   });
 
