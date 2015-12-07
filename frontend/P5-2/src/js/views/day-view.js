@@ -11,7 +11,9 @@ var app = app || {};
     initialize : function() {
       console.log('initializing day view');
       this.listenTo(this.model, 'change', this.render);
+      this.listenTo(app.days, 'change', this.render);
       app.days.fetch({reset:true});
+      this.render();
     },
     
     render : function() {
@@ -19,7 +21,7 @@ var app = app || {};
       this.$el.removeClass('hidden');
     },
     
-    createOnEnter : function(event) {
+    createOnEnter : function(e) {
       if (e.keyCode === ENTER_KEY) {
         console.log('entered');
       }

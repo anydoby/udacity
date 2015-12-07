@@ -2,6 +2,7 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  height: 100%;
 }
 
 body {
@@ -11,6 +12,20 @@ body {
 section, header {
   margin: 0;
   padding: 0;
+}
+
+#application {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+#application > section {
+	flex: 1;
+}
+
+#day {
+	margin-bottom: 1em;
 }
 
 h1 {
