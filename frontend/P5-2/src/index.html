@@ -11,13 +11,13 @@
     <header>
       <h1>Health Tracker</h1>
     </header>
-    <section id="main" class="container screen column hidden">
-      <input id="main-food-input" placeholder="What did we eat today?"/>
-      <ul id="main-foods">
+    <section id="day" class="container screen column hidden">
+      <input id="day-food-input" placeholder="What did we eat today?"/>
+      <ul id="day-foods">
         
       </ul>
-      <div id="totals">
-        <div>Total calories: <input id="totalCalories" disabled="disabled"/></div>
+      <div id="day-totals">
+        <div>Total calories: <input id="day-totals-calories" disabled="disabled"/></div>
       </div>
     </section>
     <section id="setup" class="hidden">
@@ -59,7 +59,11 @@
   <script src="../bower_components/underscore/underscore.js"></script>
   <script src="../bower_components/backbone/backbone.js"></script>
   <script src="../bower_components/backbone.localStorage/backbone.localStorage.js"></script>
+  <script src="js/model/user.js"></script>
+  <script src="js/model/day.js"></script>
+  <script src="js/collections/days.js"></script>
   <script src="js/setup.js"></script>
+  <script src="js/views/day-view.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

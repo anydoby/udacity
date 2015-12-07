@@ -1,26 +1,24 @@
 var app = app || {};
-var $b = Backbone;
 
 var showOrSetupUser = function() {
-  var user = new app.User();
+  app.user = new app.User();
   /*
    * Try to load stored user. If there is no user run a setup wizzard
    */
-  user.fetch().done(function(users) {
+  app.user.fetch().done(function(users) {
     if (users[0]) {
       app.dayView = new app.DayView({
-        model : user
+        model : app.user
       });
     } else {
       app.setup = new app.SetupWizzard({
-        model : user
+        model : app.user
       });
-      app.setup.render();
     }
   });
 };
 
-var AppRouter = $b.Router.extend({
+var AppRouter = Backbone.Router.extend({
   routes : {
     'setup/:step' : "setup",
     'day/:day' : 'day'
@@ -51,6 +49,6 @@ var AppRouter = $b.Router.extend({
 
 $(function() {
   app.router = new AppRouter();
-  $b.history.start();
+  Backbone.history.start();
   showOrSetupUser();
 });

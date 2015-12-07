@@ -1,6 +1,112 @@
 var ENTER_KEY = 13;
 var app = app || {};
-var $b = Backbone;
+
+(function() {
+  app.SetupWizzard = Backbone.View.extend({
+    el : $('#setup'),
+    events : {
+      "keypress input" : "checkEnterKey"
+    },
+    step : 0,
+    steps : [ {
+      id : 'name',
+      validation : function(input) {
+        return /\w+/g.test(input) ? input : null;
+      }
+    }, {
+      id : 'dob',
+      validation : function(input) {
+        return parseDob(input);
+      }
+    }, {
+      id : 'sex',
+      validation : function(input) {
+        return parseSex(input);
+      }
+    }, {
+      id : 'activity',
+      validation : function(input) {
+        var times = /\d+/g;
+        return times.test(input) ? input.trim() : null;
+      }
+    }, {
+      id : 'weight',
+      validation : function(input) {
+        return parseWeight(input);
+      }
+    }, {
+      id : 'height',
+      validation : function(input) {
+        return parseHeight(input);
+      }
+    }
+
+    ],
+
+    initialize : function() {
+      this.field = this.$('#setup-' + this.currentStep() + '-field');
+      this.listenTo(this.model, 'change', this.render);
+    },
+
+    currentStep : function() {
+      return this.steps[this.step].id;
+    },
+
+    validate : function() {
+      return this.steps[this.step].validation;
+    },
+
+    render : function() {
+      this.steps.forEach(function(s) {
+        this.$('#setup-' + s.id).addClass('hidden');
+        this.$('#setup-' + s.id + "-error").addClass('hidden');
+      });
+      this.$el.removeClass('hidden');
+      this.$('#setup-' + this.currentStep()).removeClass('hidden');
+    },
+
+    checkEnterKey : function(e) {
+      if (e.keyCode === ENTER_KEY) {
+        this.nextStep();
+      }
+    },
+
+    setStep : function(step) {
+      this.step = step;
+      if (this.step < this.steps.length) {
+        // go to next step in the wizzard
+        this.initialize();
+        this.render();
+        app.router.navigate("setup/" + step);
+      } else {
+        // end of wizzard
+        this.done();
+      }
+    },
+
+    nextStep : function() {
+      var input = this.field.val();
+      var currentStep = this.currentStep();
+      var parsedAndValidatedValue;
+      if (parsedAndValidatedValue = this.validate()(input)) {
+        this.setStep(this.step + 1);
+        this.model.set(currentStep, parsedAndValidatedValue);
+      } else {
+        // show error if validation failed
+        this.$('#setup-' + currentStep + "-error").removeClass('hidden');
+      }
+    },
+    done : function() {
+      this.model.save();
+      this.$el.addClass("hidden");
+      var today = new Date();
+      app.router.navigate("day/" + today.getFullYear() + "-" + today.getMonth() + "-" + today.getDay(), {
+        trigger : true
+      });
+    }
+  });
+
+})();
 
 function parseDob(input) {
   var dob = /((\d{1,2})\s+)?(January|February|March|April|May|June|July|August|September|October|November|December)\s+((\d{1,2})\s+)?(\d{4})/g;
@@ -59,111 +165,3 @@ function parseHeight(input) {
     return total;
   }
 }
-
-(function() {
-  app.User = $b.Model.extend({
-    localStorage : new $b.LocalStorage("ht-user")
-  });
-
-  app.SetupWizzard = $b.View.extend({
-    el : $('#setup'),
-    events : {
-      "keypress input" : "checkEnterKey"
-    },
-    step : 0,
-    steps : [ {
-      id : 'name',
-      validation : function(input) {
-        return /\w+/g.test(input) ? input : null;
-      }
-    }, {
-      id : 'dob',
-      validation : function(input) {
-        return parseDob(input);
-      }
-    }, {
-      id : 'sex',
-      validation : function(input) {
-        return parseSex(input);
-      }
-    }, {
-      id : 'activity',
-      validation : function(input) {
-        var times = /\d+/g;
-        return times.test(input) ? input.trim() : null;
-      }
-    }, {
-      id : 'weight',
-      validation : function(input) {
-        return parseWeight(input);
-      }
-    }, {
-      id : 'height',
-      validation : function(input) {
-        return parseHeight(input);
-      }
-    }
-
-    ],
-
-    initialize : function() {
-      this.field = this.$('#setup-' + this.currentStep() + '-field');
-    },
-
-    currentStep : function() {
-      return this.steps[this.step].id;
-    },
-
-    validate : function() {
-      return this.steps[this.step].validation;
-    },
-
-    render : function() {
-      this.steps.forEach(function(s) {
-        this.$('#setup-' + s.id).addClass('hidden');
-        this.$('#setup-' + s.id + "-error").addClass('hidden');
-      });
-      this.$el.removeClass('hidden');
-      this.$('#setup-' + this.currentStep()).removeClass('hidden');
-    },
-
-    checkEnterKey : function(e) {
-      if (e.keyCode === ENTER_KEY) {
-        this.nextStep();
-      }
-    },
-
-    setStep : function(step) {
-      this.step = step;
-      if (this.step < this.steps.length) {
-        // go to next step in the wizzard
-        this.initialize();
-        this.render();
-        app.router.navigate("setup/" + step);
-      } else {
-        // end of wizzard
-        this.done();
-      }
-    },
-
-    nextStep : function() {
-      var input = this.field.val();
-      var currentStep = this.currentStep();
-      var parsedAndValidatedValue;
-      if (parsedAndValidatedValue = this.validate()(input)) {
-        this.model.set(currentStep, parsedAndValidatedValue);
-        this.setStep(this.step + 1);
-      } else {
-        // show error if validation failed
-        this.$('#setup-' + currentStep + "-error").removeClass('hidden');
-      }
-    },
-    done : function() {
-      this.model.save();
-      this.$el.addClass("hidden");
-      var today = new Date();
-      app.router.navigate("day/" + today.getFullYear() + "-" + today.getMonth() + "-" + today.getDay());
-    }
-  });
-
-})();
