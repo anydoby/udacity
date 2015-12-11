@@ -44,7 +44,6 @@ var app = app || {};
     ],
 
     initialize : function() {
-      this.field = this.$('#setup-' + this.currentStep() + '-field');
       this.listenTo(this.model, 'change', this.render);
     },
 
@@ -57,6 +56,7 @@ var app = app || {};
     },
 
     render : function() {
+      this.field = this.$('#setup-' + this.currentStep() + '-field');
       this.steps.forEach(function(s) {
         this.$('#setup-' + s.id).addClass('hidden');
         this.$('#setup-' + s.id + "-error").addClass('hidden');

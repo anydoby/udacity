@@ -17,10 +17,9 @@
     "tests"
   ],
   "dependencies": {
-    "knockout": "~3.4.0",
     "backbone": "~1.2.3",
     "jquery": "~2.1.4",
-    "backbone.localStorage": "Backbone.localStorage#~1.1.16"
+    "backbone.localStorage": "Backbone.localStorage#~1.1.16",
   },
   "resolutions": {
     "backbone": "~1.2.3",

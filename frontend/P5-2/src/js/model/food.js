@@ -2,7 +2,7 @@ var app = app || {};
 
 app.Food = Backbone.Model.extend({
   defaults : {
-    name : 'some food',
-    
+    id : 1,
+    text : 'some text'
   }
 });

@@ -14,6 +14,7 @@ var showOrSetupUser = function() {
       app.setup = new app.SetupWizzard({
         model : app.user
       });
+      app.setup.setStep(0);
     }
   });
 };
