@@ -12,7 +12,10 @@
       <h1>Health Tracker</h1>
     </header>
     <section id="day" class="container screen column hidden">
-      <input id="day-food-input" placeholder="What did we eat today?"/>
+      <form id="food-search">
+        <input id="day-food-input" autocomplete="off" placeholder="What did we eat today?"/>
+        <div class="autocomplete-results"></div>
+      </form>
       <h2>Consumed so far</h2>
       <ul id="day-foods">
         
